@@ -1,3 +1,8 @@
+## UML Component Diagram
+
+![HrmsComponentDiagram](https://user-images.githubusercontent.com/59421135/121824408-b8b54880-ccb4-11eb-9785-ff809bd71f54.png)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
