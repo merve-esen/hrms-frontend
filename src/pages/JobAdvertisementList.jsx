@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Icon, Menu, Table } from "semantic-ui-react";
+import { useDispatch, useSelector } from 'react-redux';
+import { Icon, Menu, Table, Button } from "semantic-ui-react";
+import { toast } from "react-toastify";
 import JobAdvertisementService from "../services/jobAdvertisementService";
 
 export default function JobAdvertisementList() {
+  const dispatch = useDispatch();
+
     const [jobAdvertisements, setJobAdvertisements] = useState([]);
 
     useEffect(() => {
@@ -11,6 +15,15 @@ export default function JobAdvertisementList() {
         .getAll()
         .then((result) => setJobAdvertisements(result.data.data));
     }, []);
+
+    const {jobAdvertisementItems} = useSelector(state => state.jobAdvertisement)
+
+    
+
+    const handleApplyJobAdvertisement = (jobAdvertisement) => {
+      //dispatch(applyJobAdvertisement(jobAdvertisement));
+      toast.success(`${jobAdvertisement.jobPosition.name} is applied!`)
+    };
 
     return (
         <Table celled>
@@ -33,6 +46,9 @@ export default function JobAdvertisementList() {
               <Table.Cell>{jobAdvertisement.minimumSalary}</Table.Cell>
               <Table.Cell>{jobAdvertisement.maximumSalary}</Table.Cell>
               <Table.Cell>{jobAdvertisement.applicationDeadline}</Table.Cell>
+              <Table.Cell>
+                <Button onClick={()=>handleApplyJobAdvertisement(jobAdvertisement)}>Apply</Button>
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
