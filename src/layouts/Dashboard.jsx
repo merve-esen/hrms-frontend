@@ -5,15 +5,17 @@ import EmployerList from '../pages/EmployerList';
 import JobAdvertisementList from '../pages/JobAdvertisementList';
 import JobPositionList from '../pages/JobPositionList';
 import { Route } from "react-router";
+import JobAdvertisementDetail from '../pages/JobAdvertisementDetail';
 
 export default function Dashboard() {
     return (
         <div>
             <Route exact path="/" component={Home} />
             <Route exact path="/candidates" component={CandidateList} />
-            <Route path="/employers/" component={EmployerList} />
-            <Route path="/jobAdvertisements" component={JobAdvertisementList} />
-            <Route path="/jobPositions" component={JobPositionList} />
+            <Route exact path="/employers/" component={EmployerList} />
+            <Route exact path="/jobAdvertisements" component={JobAdvertisementList} />
+            <Route exact path="/jobAdvertisementDetail" component={JobAdvertisementDetail} />
+            <Route exact path="/jobPositions" component={JobPositionList} />
         </div>
     )
 }
