@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <Navi/>
-      <Container className="main">
+      <Container className="main"  style={{ marginTop: "5em" }}>
          
          <Dashboard/>
       </Container>   
