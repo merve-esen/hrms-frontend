@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 import { Icon, Menu, Table, Button } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import JobAdvertisementService from "../services/jobAdvertisementService";
 
 export default function JobAdvertisementList() {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
     const [jobAdvertisements, setJobAdvertisements] = useState([]);
 
@@ -16,7 +16,7 @@ export default function JobAdvertisementList() {
         .then((result) => setJobAdvertisements(result.data.data));
     }, []);
 
-    const {jobAdvertisementItems} = useSelector(state => state.jobAdvertisement)
+    //const {jobAdvertisementItems} = useSelector(state => state.jobAdvertisement)
 
     
 

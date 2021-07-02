@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 import { Card, Grid, Table, Header, Icon, Button } from 'semantic-ui-react'
 import { toast } from "react-toastify";
 import JobAdvertisementService from '../services/jobAdvertisementService';
 import EmployerService from '../services/employerService';
 
 export default function AdminDashboard() {
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     const [jobAdvertisements, setJobAdvertisements] = useState([]);
     const [employers, setEmployers] = useState([]);
@@ -23,16 +23,16 @@ export default function AdminDashboard() {
             .then((result) => setEmployers(result.data.data));
     }, []);
 
-    const { jobAdvertisementItems } = useSelector(state => state.jobAdvertisement)
-    const { jobEmployerItems } = useSelector(state => state.employer)
+    //const { jobAdvertisementItems } = useSelector(state => state.jobAdvertisement)
+    //const { employerItems } = useSelector(state => state.employer)
 
     const handleConfirmJobAdvertisement = (jobAdvertisement) => {
         //dispatch(applyJobAdvertisement(jobAdvertisement));
-        toast.success(`${jobAdvertisement.jobPosition.name} is confirmed!`)
+        toast.success(`${jobAdvertisement.jobPosition.name} ilanı onaylandı!`)
     };
     const handleConfirmEmployer = (employer) => {
         //dispatch(applyJobAdvertisement(jobAdvertisement));
-        toast.success(`${employer.companyName} is confirmed!`)
+        toast.success(`${employer.companyName} şirketi onaylandı!`)
     };
 
     return (
