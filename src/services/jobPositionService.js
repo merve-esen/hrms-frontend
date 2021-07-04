@@ -10,4 +10,11 @@ export default class JobPositionService {
       name,
     });
   }
+
+  update({ id, name }) {
+    return axios.post("http://localhost:8080/api/jobPositions/update", {
+      id,
+      name,
+    });
+  }
 }

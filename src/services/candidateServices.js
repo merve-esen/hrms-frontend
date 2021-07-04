@@ -5,23 +5,11 @@ export default class CandidateService {
     return axios.get("http://localhost:8080/api/candidates/getall");
   }
 
-  add({
-    birthYear,
-    confirmPassword,
-    email,
-    firstName,
-    identityNumber,
-    lastName,
-    password,
-  }) {
-    return axios.post("http://localhost:8080/api/candidates/add", {
-      birthYear,
-      confirmPassword,
-      email,
-      firstName,
-      identityNumber,
-      lastName,
-      password,
-    });
+  add(candidate) {
+    return axios.post("http://localhost:8080/api/candidates/add", candidate);
+  }
+
+  update(candidate) {
+    return axios.post("http://localhost:8080/api/candidates/update", candidate);
   }
 }

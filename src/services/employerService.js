@@ -6,13 +6,11 @@ export default class EmployerService {
     return axios.get("http://localhost:8080/api/employers/getall");
   }
 
-  add({ companyName, email, password, phoneNumber, webSite }) {
-    return axios.post("http://localhost:8080/api/employers/add", {
-      companyName,
-      email,
-      password,
-      phoneNumber,
-      webSite
-    });
+  add(employer) {
+    return axios.post("http://localhost:8080/api/employers/add", employer);
+  }
+
+  update(employer) {
+    return axios.post("http://localhost:8080/api/employers/update", employer);
   }
 }
