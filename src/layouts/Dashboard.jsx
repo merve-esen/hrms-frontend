@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import EmployerDashboard from "./EmployerDashboard";
 import AdminDashboard from "./AdminDashboard";
 import CandidateDashboard from "./CandidateDashboard";
+import JobAdvertisementAdd from "./../pages/JobAdvertisementAdd";
 
 export default function Dashboard() {
   return (
@@ -24,6 +25,7 @@ export default function Dashboard() {
       <Route exact path="/employers/" component={EmployerList} />
       <Route exact path="/jobAdvertisements" component={JobAdvertisementList} />
       <Route exact path="/jobAdvertisementDetail/:id" component={JobAdvertisementDetail} />
+      <Route exact path="/jobAdvertisement/add" component={JobAdvertisementAdd} />
       <Route exact path="/jobPositions" component={JobPositionList} />      
     </div>
   );

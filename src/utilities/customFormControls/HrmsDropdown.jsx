@@ -1,13 +1,13 @@
 import React from 'react'
 import { useField } from 'formik'
-import { FormField } from 'semantic-ui-react'
+import { FormField, FormSelect, Label } from 'semantic-ui-react'
 
-export default function KodlamaIoDropdown({...props}) {
+export default function HrmsDropdown({...props}) {
     const [field,meta] = useField(props)
     return (
         <FormField error={meta.touched && !!meta.error}>
            <input {...field} {...props} />
-           <Form.Select
+           <FormSelect
             fluid
             {...field} {...props}
           />
