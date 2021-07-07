@@ -6,6 +6,7 @@ import { Form, Button, Card, Grid } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import HrmsTextInput from "../utilities/customFormControls/HrmsTextInput";
 import HrmsDropdown from "./../utilities/customFormControls/HrmsDropdown";
+import HrmsTextArea from "./../utilities/customFormControls/HrmsTextArea";
 import JobAdvertisementService from "./../services/jobAdvertisementService";
 import WorkplaceService from "./../services/workplaceService";
 import CityService from "./../services/cityService";
@@ -30,7 +31,9 @@ export default function JobAdvertisementAdd() {
     workTimeService.getAll().then((result) => setWorkTimes(result.data.data));
     workplaceService.getAll().then((result) => setWorkplaces(result.data.data));
     cityService.getAll().then((result) => setCities(result.data.data));
-    jobPositionService.getAll().then((result) => setJobPositions(result.data.data));
+    jobPositionService
+      .getAll()
+      .then((result) => setJobPositions(result.data.data));
   }, []);
 
   const workTimeOptions = workTimes.map((workTime, index) => ({
@@ -56,13 +59,13 @@ export default function JobAdvertisementAdd() {
 
   const schema = Yup.object({
     jobDescription: Yup.string().required(),
-    numberOfOpenPositions: Yup.number().required(),
+    numberOfOpenPositions: Yup.number().required().moreThan(0),
     minimumSalary: Yup.number().min(0),
     maximumSalary: Yup.number().min(0),
     jobPositionId: Yup.number().required().min(1),
-    cityId: Yup.number().required(),
-    workTimeId: Yup.number().required(),
-    workplaceId: Yup.number().required(),
+    cityId: Yup.number().required().min(1),
+    workTimeId: Yup.number().required().min(1),
+    workplaceId: Yup.number().required().min(1),
     applicationDeadline: Yup.date().required(),
   });
 
@@ -73,25 +76,27 @@ export default function JobAdvertisementAdd() {
       minimumSalary: 0,
       maximumSalary: 0,
       applicationDeadline: "",
-      jobPositionId: 0,
-      cityId: 0,
-      workTimeId: 0,
-      workplaceId: 0
+      jobPositionId: "",
+      cityId: "",
+      workTimeId: "",
+      workplaceId: "",
     },
     validationSchema: schema,
-    onSubmit: values => {
+    onSubmit: (values) => {
       console.log(values);
-      values.employerId = 2; //TODO
+      values.employerId = 4; //TODO
 
       jobAdvertisementService
         .add(values)
         .then((result) => {
-          console.log(result)
-          toast.success(result.data.message ? result.data.message : "İş ilanı eklendi");
+          console.log(result);
+          toast.success(
+            result.data.message ? result.data.message : "İş ilanı eklendi"
+          );
           history.push("/jobAdvertisements");
         })
         .catch((result) => {
-          console.log(result)
+          console.log(result);
           toast.error(result.response.data.message);
         });
       //history.push("/jobAdvertisements");
@@ -104,101 +109,98 @@ export default function JobAdvertisementAdd() {
         <Card.Content header="İş ilanı Ekle" />
         <Card.Content>
           <Form className="ui form" onSubmit={formik.handleSubmit}>
-            <Grid columns={4}>
-              <Grid.Row>
+            <Grid>
+              <Grid.Column mobile={16} tablet={8} computer={4}>
+                <HrmsDropdown
+                  placeholder="İş Pozisyonu"
+                  name="jobPositionId"
+                  options={jobPositionOptions}
+                  onChange={(e, { value }) =>
+                    formik.setFieldValue("jobPositionId", value)
+                  }
+                  search
+                  clearable
+                />
+              </Grid.Column>
+              <Grid.Column mobile={16} tablet={8} computer={4}>
+                <HrmsDropdown
+                  placeholder="Şehir"
+                  name="cityId"
+                  options={cityOptions}
+                  onChange={(e, { value }) =>
+                    formik.setFieldValue("cityId", value)
+                  }
+                  search
+                  clearable
+                />
+              </Grid.Column>
+              <Grid.Column mobile={16} tablet={8} computer={4}>
+                <HrmsDropdown
+                  placeholder="Çalışma Şekli"
+                  name="workplaceId"
+                  options={workplaceOptions}
+                  onChange={(e, { value }) =>
+                    formik.setFieldValue("workplaceId", value)
+                  }
+                  search
+                  clearable
+                />
+              </Grid.Column>
+              <Grid.Column mobile={16} tablet={8} computer={4}>
+                <HrmsDropdown
+                  placeholder="Çalışma Zamanı"
+                  name="workTimeId"
+                  options={workTimeOptions}
+                  onChange={(e, { value }) =>
+                    formik.setFieldValue("workTimeId", value)
+                  }
+                  search
+                  clearable
+                />
+              </Grid.Column>
+              <Grid.Column mobile={16} tablet={8} computer={4}>
+                <HrmsTextInput
+                  name="numberOfOpenPositions"
+                  placeholder="Açık Pozisyon Adedi"
+                  type="number"
+                />
+              </Grid.Column>
+              <Grid.Column mobile={16} tablet={8} computer={4}>
+                <HrmsTextInput
+                  name="minimumSalary"
+                  placeholder="Minimum Ücret"
+                  type="number"
+                />
+              </Grid.Column>
+              <Grid.Column mobile={16} tablet={8} computer={4}>
+                <HrmsTextInput
+                  name="maximumSalary"
+                  placeholder="Maksimum Ücret"
+                  type="number"
+                />
+              </Grid.Column>
+              <Grid.Column mobile={16} tablet={8} computer={4}>
+                <HrmsTextInput
+                  name="applicationDeadline"
+                  placeholder="Son Başvuru Tarihi"
+                  type="date"
+                />
+              </Grid.Column>
+              <Grid.Column mobile={16} tablet={16} computer={16}>
+                <HrmsTextArea
+                  name="jobDescription"
+                  placeholder="İş Tanımı"
+                  onChange={formik.handleChange}
+                />
+              </Grid.Column>
+              <Grid.Row centered columns={8}>
                 <Grid.Column>
-                  <HrmsTextInput
-                    name="jobDescription"
-                    placeholder="İş Tanımı"
-                    onChange={formik.handleChange}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-
-                <Grid.Column>
-                  <HrmsDropdown
-                    placeholder="İş Pozisyonu"
-                    name="jobPositionId"
-                    options={jobPositionOptions}
-                    onChange={(e, { value }) =>
-                      formik.setFieldValue('jobPositionId', value)
-                    }
-                    search
-                    clearable
-                  />
-                </Grid.Column>
-                <Grid.Column>
-                  <HrmsDropdown
-                    placeholder="Şehir"
-                    name="cityId"
-                    options={cityOptions}
-                    onChange={(e, { value }) =>
-                      formik.setFieldValue('cityId', value)
-                    }
-                    search
-                    clearable
-                  />
-                </Grid.Column>
-                <Grid.Column>
-                  <HrmsDropdown
-                    placeholder="Çalışma Şekli"
-                    name="workplaceId"
-                    options={workplaceOptions}
-                    onChange={(e, { value }) =>
-                      formik.setFieldValue('workplaceId', value)
-                    }
-                    search
-                    clearable
-                  />
-                </Grid.Column>
-                <Grid.Column>
-                  <HrmsDropdown
-                    placeholder="Çalışma Zamanı"
-                    name="workTimeId"
-                    options={workTimeOptions}
-                    onChange={(e, { value }) =>
-                      formik.setFieldValue('workTimeId', value)
-                    }
-                    search
-                    clearable
-                  />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <HrmsTextInput
-                    name="numberOfOpenPositions"
-                    placeholder="Açık Pozisyon Adedi"
-                    type="number"
-                  />
-                </Grid.Column>
-                <Grid.Column>
-                  <HrmsTextInput
-                    name="minimumSalary"
-                    placeholder="Minimum Ücret"
-                    type="number"
-                  />
-                </Grid.Column>
-                <Grid.Column>
-                  <HrmsTextInput
-                    name="maximumSalary"
-                    placeholder="Maksimum Ücret"
-                    type="number"
-                  />
-                </Grid.Column>
-                <Grid.Column>
-                  <HrmsTextInput
-                    name="applicationDeadline"
-                    placeholder="Son Başvuru Tarihi"
-                    type="date"
-                  />
+                  <Button color="green" type="submit" fluid>
+                    Ekle
+                  </Button>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-            <Button color="green" type="submit">
-              Ekle
-            </Button>
           </Form>
         </Card.Content>
       </Card>

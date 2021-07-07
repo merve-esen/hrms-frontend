@@ -1,13 +1,13 @@
 import React from "react";
 import { useField } from "formik";
-import { FormField, FormSelect, Label } from "semantic-ui-react";
+import { FormField, Label, TextArea } from "semantic-ui-react";
 
-export default function HrmsDropdown({ ...props }) {
+export default function HrmsTextArea({ ...props }) {
   const [field, meta] = useField(props);
   return (
     <FormField error={meta.touched && !!meta.error}>
       <label>{props.placeholder ? props.placeholder : ""}</label>
-      <FormSelect fluid {...field} {...props} />
+      <TextArea {...field} {...props} />
       {meta.touched && !!meta.error ? (
         <Label pointing basic color="red" content={meta.error}></Label>
       ) : null}
