@@ -6,7 +6,7 @@ export default function HrmsDropdown({...props}) {
     const [field,meta] = useField(props)
     return (
         <FormField error={meta.touched && !!meta.error}>
-           <input {...field} {...props} />
+           <label>{props.placeholder ? props.placeholder : ''}</label>
            <FormSelect
             fluid
             {...field} {...props}

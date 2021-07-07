@@ -7,13 +7,15 @@ export default class JobAdvertisementService {
 
   add({
     applicationDeadline,
-    city: { cityId },
+    cityId,
     jobDescription,
-    employer: { employerId },
-    jobPosition: { jobPositionId },
+    employerId,
+    jobPositionId,
     minimumSalary,
     maximumSalary,
     numberOfOpenPositions,
+    workTimeId,
+    workplaceId
   }) {
     return axios.post("http://localhost:8080/api/jobAdvertisements/add", {
       applicationDeadline,
@@ -24,19 +26,23 @@ export default class JobAdvertisementService {
       minimumSalary,
       maximumSalary,
       numberOfOpenPositions,
+      workTime: { id: workTimeId },
+      workplace: { id: workplaceId }
     });
   }
 
   update({
     id,
     applicationDeadline,
-    city: { cityId },
+    cityId,
     jobDescription,
-    employer: { employerId },
-    jobPosition: { jobPositionId },
+    employerId,
+    jobPositionId,
     minimumSalary,
     maximumSalary,
     numberOfOpenPositions,
+    workTimeId,
+    workplaceId
   }) {
     return axios.post("http://localhost:8080/api/jobAdvertisements/update", {
       id,
@@ -48,6 +54,8 @@ export default class JobAdvertisementService {
       minimumSalary,
       maximumSalary,
       numberOfOpenPositions,
+      workTime: { id: workTimeId },
+      workplace: { id: workplaceId }
     });
   }
 }
