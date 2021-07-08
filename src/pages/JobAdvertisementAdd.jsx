@@ -58,15 +58,15 @@ export default function JobAdvertisementAdd() {
   }));
 
   const schema = Yup.object({
-    jobDescription: Yup.string().required(),
-    numberOfOpenPositions: Yup.number().required().moreThan(0),
+    jobDescription: Yup.string().required("Zorunlu alan"),
+    numberOfOpenPositions: Yup.number().required("Zorunlu alan").moreThan(0,"Açık Pozisyon Adedi 0'dan büyük olmalıdır"),
     minimumSalary: Yup.number().min(0),
     maximumSalary: Yup.number().min(0),
-    jobPositionId: Yup.number().required().min(1),
-    cityId: Yup.number().required().min(1),
-    workTimeId: Yup.number().required().min(1),
-    workplaceId: Yup.number().required().min(1),
-    applicationDeadline: Yup.date().required(),
+    jobPositionId: Yup.number().required("Zorunlu alan").min(1),
+    cityId: Yup.number().required("Zorunlu alan").min(1),
+    workTimeId: Yup.number().required("Zorunlu alan").min(1),
+    workplaceId: Yup.number().required("Zorunlu alan").min(1),
+    applicationDeadline: Yup.date().required("Zorunlu alan"),
   });
 
   const formik = useFormik({

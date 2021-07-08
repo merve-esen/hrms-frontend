@@ -5,6 +5,10 @@ export default class JobAdvertisementService {
     return axios.get("http://localhost:8080/api/jobAdvertisements/getall");
   }
 
+  getByIsActiveTrue() {
+    return axios.get("http://localhost:8080/api/jobAdvertisements/getbyisactivetrue");
+  }
+
   add({
     applicationDeadline,
     cityId,
@@ -58,4 +62,17 @@ export default class JobAdvertisementService {
       workplace: { id: workplaceId }
     });
   }
+
+  close(jobAdvertisementId) {
+    return axios.get(`http://localhost:8080/api/jobAdvertisements/close?jobAdvertisementId=${jobAdvertisementId}`);
+  }
+
+  publish(jobAdvertisementId) {
+    return axios.get(`http://localhost:8080/api/jobAdvertisements/publish?jobAdvertisementId=${jobAdvertisementId}`);
+  }
+
+  confirm(jobAdvertisementId, employeeId) {
+    return axios.get(`http://localhost:8080/api/jobAdvertisements/confirm?jobAdvertisementId=${jobAdvertisementId}&?employeeId=${employeeId}`);
+  }
+
 }
