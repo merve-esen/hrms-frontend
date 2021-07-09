@@ -3,17 +3,27 @@ import React, { useEffect, useState } from 'react'
 import { Icon, Menu, Table, Button } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import JobAdvertisementService from "../services/jobAdvertisementService";
+import FavoriteJobAdvertisementService from '../services/favoriteJobAdvertisementService';
 
 export default function JobAdvertisementList() {
   //const dispatch = useDispatch();
 
   const [jobAdvertisements, setJobAdvertisements] = useState([]);
+  let [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     let jobAdvertisementService = new JobAdvertisementService();
     jobAdvertisementService
       .getAll()
       .then((result) => setJobAdvertisements(result.data.data));
+
+      let favoriteAdvertisementService = new FavoriteJobAdvertisementService();
+      favoriteAdvertisementService.getByCandidateId(3).then((result) => {
+        console.log(result);
+          setFavorites(result.data.data.map((favoriteAd) => (
+            favoriteAd.id
+          )))
+        })
   }, []);
 
   //const {jobAdvertisementItems} = useSelector(state => state.jobAdvertisement)
@@ -36,6 +46,27 @@ export default function JobAdvertisementList() {
     toast.success(`${jobAdvertisement.jobPosition.name} ilanı yayına alındı!`)
   };
 
+  let favoriteAdvertisementService = new FavoriteJobAdvertisementService();
+  const handleAddFavorite = (jobAdvertisementId) => {
+    if(favorites.includes(jobAdvertisementId)){
+      /*favoriteAdvertisementService.delete({jobAdvertisementId, candidateId: 3}).then((result) => {
+        toast.success(result.data.message)
+        favorites.push(jobAdvertisementId)
+        setFavorites([...favorites])
+      }).catch((result) => {
+        toast.error(result.response.data.message)
+      })*/
+    } else {
+      favoriteAdvertisementService.add({jobAdvertisementId, candidateId: 3}).then((result) => {
+        toast.success(result.data.message)
+        favorites.push(jobAdvertisementId)
+        setFavorites([...favorites])
+      }).catch((result) => {
+        toast.error(result.response.data.message)
+      })
+    }
+  }
+
   return (
     <Table celled>
       <Table.Header>
@@ -46,6 +77,7 @@ export default function JobAdvertisementList() {
           <Table.HeaderCell>Yayın Tarihi</Table.HeaderCell>
           <Table.HeaderCell>Son Başvuru Tarihi</Table.HeaderCell>
           <Table.HeaderCell>Durumu</Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
           <Table.HeaderCell></Table.HeaderCell>
         </Table.Row>
       </Table.Header>
@@ -63,6 +95,14 @@ export default function JobAdvertisementList() {
               <Button negative fluid onClick={() => handleCloseJobAdvertisement(jobAdvertisement)}>Yayından Kaldır</Button> : 
               <Button positive fluid onClick={() => handlePublishJobAdvertisement(jobAdvertisement)}>Yayına Al</Button>}
             </Table.Cell>
+            <Table.Cell>
+                <Button
+                    circular
+                    icon={favorites.includes(jobAdvertisement.id)?"heart":"heart outline"}
+                    color={favorites.includes(jobAdvertisement.id)?"red":"green"}
+                    onClick = {() => handleAddFavorite(jobAdvertisement.id)}
+                  />
+                </Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
