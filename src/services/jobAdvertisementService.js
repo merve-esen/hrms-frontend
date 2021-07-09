@@ -75,4 +75,8 @@ export default class JobAdvertisementService {
     return axios.get(`http://localhost:8080/api/jobAdvertisements/confirm?jobAdvertisementId=${jobAdvertisementId}&?employeeId=${employeeId}`);
   }
 
+  reject(jobAdvertisementId, employeeId) {
+    return axios.get(`http://localhost:8080/api/jobAdvertisements/reject?jobAdvertisementId=${jobAdvertisementId}&?employeeId=${employeeId}`);
+  }
+
 }

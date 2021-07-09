@@ -11,14 +11,21 @@ import EmployerDashboard from "./EmployerDashboard";
 import AdminDashboard from "./AdminDashboard";
 import CandidateDashboard from "./CandidateDashboard";
 import JobAdvertisementAdd from "./../pages/JobAdvertisementAdd";
+import EmployerJobAdvertisementList from "../pages/EmployerJobAdvertisementList";
+import AdminJobAdvertisementList from "../pages/AdminJobAdvertisementList";
 
 export default function Dashboard() {
   return (
     <div>
       <ToastContainer position="bottom-right" />
       <Route exact path="/" component={Home} />
+
       <Route exact path="/admin/" component={AdminDashboard} />
+      <Route exact path="/admin/jobAdvertisements" component={AdminJobAdvertisementList} /> 
+
       <Route exact path="/employer/" component={EmployerDashboard} />
+      <Route exact path="/employer/jobAdvertisements" component={EmployerJobAdvertisementList} /> 
+
       <Route exact path="/candidate/" component={CandidateDashboard} />
       
       <Route exact path="/candidates" component={CandidateList} />
@@ -26,7 +33,8 @@ export default function Dashboard() {
       <Route exact path="/jobAdvertisements" component={JobAdvertisementList} />
       <Route exact path="/jobAdvertisementDetail/:id" component={JobAdvertisementDetail} />
       <Route exact path="/jobAdvertisement/add" component={JobAdvertisementAdd} />
-      <Route exact path="/jobPositions" component={JobPositionList} />      
+      <Route exact path="/jobPositions" component={JobPositionList} />     
+
     </div>
   );
 }

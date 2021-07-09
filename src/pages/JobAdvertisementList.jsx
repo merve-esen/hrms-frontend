@@ -52,7 +52,7 @@ export default function JobAdvertisementList() {
       <Table.Body>
         {jobAdvertisements.map((jobAdvertisement) => (
           <Table.Row key={jobAdvertisement.id}>
-            <Table.Cell>{jobAdvertisement.employer.companyName} {jobAdvertisement.id}</Table.Cell>
+            <Table.Cell>{jobAdvertisement.employer.companyName}</Table.Cell>
             <Table.Cell>{jobAdvertisement.jobPosition.name}</Table.Cell>
             <Table.Cell>{jobAdvertisement.numberOfOpenPositions}</Table.Cell>
             <Table.Cell>{jobAdvertisement.createDate}</Table.Cell>
