@@ -46,17 +46,19 @@ export default function JobAdvertisementList() {
     toast.success(`${jobAdvertisement.jobPosition.name} ilanı yayına alındı!`)
   };
 
-  let favoriteAdvertisementService = new FavoriteJobAdvertisementService();
+  //let favoriteAdvertisementService = new FavoriteJobAdvertisementService();
   const handleAddFavorite = (jobAdvertisementId) => {
     if(favorites.includes(jobAdvertisementId)){
-      /*favoriteAdvertisementService.delete({jobAdvertisementId, candidateId: 3}).then((result) => {
+      let favoriteAdvertisementService = new FavoriteJobAdvertisementService();
+      favoriteAdvertisementService.delete({jobAdvertisementId: 3, candidateId: 3}).then((result) => {
         toast.success(result.data.message)
-        favorites.push(jobAdvertisementId)
-        setFavorites([...favorites])
+        setFavorites([favorites.filter((f) => f.id !== jobAdvertisementId.id)])
       }).catch((result) => {
-        toast.error(result.response.data.message)
-      })*/
+        console.log(result)
+        toast.error(result)
+      })
     } else {
+      let favoriteAdvertisementService = new FavoriteJobAdvertisementService();
       favoriteAdvertisementService.add({jobAdvertisementId, candidateId: 3}).then((result) => {
         toast.success(result.data.message)
         favorites.push(jobAdvertisementId)
@@ -99,7 +101,7 @@ export default function JobAdvertisementList() {
                 <Button
                     circular
                     icon={favorites.includes(jobAdvertisement.id)?"heart":"heart outline"}
-                    color={favorites.includes(jobAdvertisement.id)?"red":"green"}
+                    color={favorites.includes(jobAdvertisement.id)?"red":"white"}
                     onClick = {() => handleAddFavorite(jobAdvertisement.id)}
                   />
                 </Table.Cell>
