@@ -34,13 +34,9 @@ export default class FavoriteJobAdvertisementService {
     );
   }
 
-  delete({ jobAdvertisementId, candidateId }) {
-    return axios.post(
-      "https://localhost:8080/api/favoriteJobAdvertisements/delete",
-      {
-        jobAdvertisement: { id: jobAdvertisementId },
-        candidate: { id: candidateId },
-      }
+  delete(jobAdvertisementId, candidateId) {
+    return axios.get(
+      `http://localhost:8080/api/favoriteJobAdvertisements/delete?jobAdvertisementId=${jobAdvertisementId}&candidateId=${candidateId}`
     );
   }
 }
