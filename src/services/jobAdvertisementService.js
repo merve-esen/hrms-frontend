@@ -1,12 +1,20 @@
 import axios from "axios";
 
 export default class JobAdvertisementService {
+  getById(id) {
+    return axios.get(`http://localhost:8080/api/jobAdvertisements/getbyid?id=${id}`);
+  }
+  
   getAll() {
     return axios.get("http://localhost:8080/api/jobAdvertisements/getall");
   }
 
   getByIsActiveTrue() {
     return axios.get("http://localhost:8080/api/jobAdvertisements/getbyisactivetrue");
+  }
+
+  getPageableAndFilterJobAdvertisements(pageNo, pageSize, filterOption) {
+    return axios.post(`http://localhost:8080/api/jobAdvertisements/getByActiveAndFilter?pageNo=${pageNo}&pageSize=${pageSize}`, filterOption);
   }
 
   add({
@@ -72,11 +80,11 @@ export default class JobAdvertisementService {
   }
 
   confirm(jobAdvertisementId, employeeId) {
-    return axios.get(`http://localhost:8080/api/jobAdvertisements/confirm?jobAdvertisementId=${jobAdvertisementId}&?employeeId=${employeeId}`);
+    return axios.get(`http://localhost:8080/api/jobAdvertisements/confirm?jobAdvertisementId=${jobAdvertisementId}&employeeId=${employeeId}`);
   }
 
   reject(jobAdvertisementId, employeeId) {
-    return axios.get(`http://localhost:8080/api/jobAdvertisements/reject?jobAdvertisementId=${jobAdvertisementId}&?employeeId=${employeeId}`);
+    return axios.get(`http://localhost:8080/api/jobAdvertisements/reject?jobAdvertisementId=${jobAdvertisementId}&employeeId=${employeeId}`);
   }
 
 }

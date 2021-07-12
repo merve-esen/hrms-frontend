@@ -1,99 +1,112 @@
-import React from 'react'
-import { Form } from 'semantic-ui-react'
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-
-const positions = [
-    { key: 'f', text: 'Frontend Developer', value: 'FrontendDeveloper' },
-    { key: 'b', text: 'Backend Developer', value: 'BackendDeveloper' },
-    { key: 's', text: 'Fullstack Developer', value: 'FullstackDeveloper' },
-]
-
-const cities = [
-    { key: '34', text: 'İstanbul', value: 'İstanbul' },
-    { key: '6', text: 'Ankara', value: 'Ankara' },
-    { key: '16', text: 'Bursa', value: 'Bursa' },
-]
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { Icon, Table, Button} from "semantic-ui-react";
+import { toast } from "react-toastify";
+import JobAdvertisementService from "../services/jobAdvertisementService";
+import FavoriteJobAdvertisementService from '../services/favoriteJobAdvertisementService';
 
 export default function JobAdvertisementDetail() {
+    let { id } = useParams();
+
+    const [jobAdvertisement, setJobAdvertisement] = useState({});
+    let [favorites, setFavorites] = useState([]);
+
+    useEffect(() => {
+        let jobAdvertisementService = new JobAdvertisementService();
+        jobAdvertisementService.getById(id)
+            .then((result) => {
+                setJobAdvertisement(result.data.data);
+            });
+
+        let favoriteJobAdvertisementService = new FavoriteJobAdvertisementService();
+        favoriteJobAdvertisementService.getByCandidateId(1).then((result) => {
+            setFavorites(result.data.data.map((favoriteAd) => (
+                favoriteAd.jobAdvertisement.id
+            )))
+        })
+    }, [id]);
+
+    let favoriteJobAdvertisementService = new FavoriteJobAdvertisementService();
+    const handleAddFavorite = (jobAdvertisementId) => {
+        if (favorites.includes(jobAdvertisementId)) {
+            favoriteJobAdvertisementService.delete(jobAdvertisementId, 1).then((result) => {
+                toast.success("İlan favorilerden kaldırıldı")
+                let newFavorites = favorites.filter((f) => f !== jobAdvertisementId)
+                setFavorites([...newFavorites])
+            }).catch((result) => {
+                toast.error(result)
+            })
+        } else {
+            favoriteJobAdvertisementService.add({ jobAdvertisementId, candidateId: 1 }).then((result) => {
+                toast.success("İlan favorilere eklendi")
+                favorites.push(jobAdvertisementId)
+                setFavorites([...favorites])
+            }).catch((result) => {
+                toast.error(result.response.data.message)
+            })
+        }
+    }
 
     return (
-        <Formik
-            initialValues={{
-                position: '',
-                city: '',
-                numberOfOpenPositions: '',
-                minSalary: '',
-                maxSalary: '',
-                applicationDeadline: '',
-                jobDescription: '',
-            }}
-            validationSchema={Yup.object({
-                position: Yup.string().required(),
-                city: Yup.string().required(),
-                numberOfOpenPositions: Yup.string().required(),
-                jobDescription: Yup.string().required(),
-            })}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-                console.log(values);
-                setTimeout(() => {
-                    setSubmitting(false);
-                    resetForm();
-                }, 2000);
-            }}
-        >
-            {({
-                values,
-                touched,
-                errors,
-                dirty,
-                isSubmitting,
-                handleSubmit,
-                handleReset,
-                handleChange,
-            }) => (
-                <Form style={{ marginTop: "8em" }}>
-                    <Form.Group widths='equal'>
-                        <Form.Select
-                            fluid
-                            label='Position' 
-                            name={values.position}
-                            options={positions}
-                            placeholder='Position'
-                            onChange={handleChange}
-                        />
-                        {errors.position && touched.position && (
-                <div>{errors.position}</div>
-              )}
-
-                        <Form.Select
-                            fluid
-                            label='City'
-                            name={values.city}
-                            options={cities}
-                            placeholder='City'
-                            onChange={handleChange}
-                        />
-                        {errors.city && touched.city && (
-                <div>{errors.city}</div>
-              )}
-                        <Form.Input fluid label='Number of Open Positions' placeholder='Number of Open Positions' name={values.numberOfOpenPositions} onChange={handleChange} />
-                        {errors.numberOfOpenPositions && touched.numberOfOpenPositions && (
-                <div>{errors.numberOfOpenPositions}</div>
-              )}
-                    </Form.Group>
-                    <Form.Group widths='equal'>
-                        <Form.Input fluid label='Min Salary' placeholder='Min Salary' name={values.minSalary} onChange={handleChange} />
-                        <Form.Input fluid label='Max Salary' placeholder='Max Salary' name={values.maxSalary} onChange={handleChange} />
-                        <Form.Input fluid label='Application Deadline' placeholder='Application Deadline' name={values.applicationDeadline} onChange={handleChange} />
-                    </Form.Group>
-                    <Form.TextArea label='Job Description' placeholder='Job Description...' name={values.jobDescription} onChange={handleChange} />
-                    {errors.jobDescription && touched.jobDescription && (
-                <div>{errors.jobDescription}</div>
-              )}
-                    <Form.Button>Submit</Form.Button>
-                </Form>
-            )}
-        </Formik>
+        <div>
+            <Table celled color="teal">
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan='2'>İlan Detayı</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    <Table.Row>
+                        <Table.Cell>Firma Adı</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.employer?.companyName}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>İş Pozisyonu</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.jobPosition?.name}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Şehir</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.city?.name}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Çalışma Şekli</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.workplace?.name}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Çalışma Zamanı</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.workTime?.name}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Açık Pozisyon Adedi</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.numberOfOpenPositions}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Minimum Ücret</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.minimumSalary}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Maksimum Ücret</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.maximumSalary}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Yayınlanma Tarihi</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.createDate}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Son Başvuru Tarihi</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.applicationDeadline}</Table.Cell>
+                    </Table.Row>
+                </Table.Body>
+                <Table.Footer fullWidth>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan='2'>
+                            <Button floated="right" color={favorites.includes(jobAdvertisement.id) ? "red" : "green"} onClick={() => handleAddFavorite(jobAdvertisement.id)}>
+                                <Icon name={favorites.includes(jobAdvertisement.id) ? "heart" : "heart outline"} />{favorites.includes(jobAdvertisement.id) ? "İlan Favorilerinizde" : "İlanı Favorilerine Ekle"}
+                            </Button>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Footer>
+            </Table>
+        </div>
     )
 }
