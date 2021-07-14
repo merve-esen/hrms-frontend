@@ -2,14 +2,18 @@ import axios from "axios";
 
 export default class EducationService {
     add(education){
-        return axios.post("https://localhost:8080/api/educations/add",education)
+        return axios.post("http://localhost:8080/api/educations/add",education)
     }
+
+    delete(educationId) {
+        return axios.delete(`http://localhost:8080/api/educations/delete?educationId=${educationId}`)
+      }
     
-    delete(education){
-        return axios.delete("https://localhost:8080/api/educations/delete", education)
+    getAllByResumeId(resumeId){
+        return axios.get(`http://localhost:8080/api/educations/getAllByResumeId?resumeId=${resumeId}`)
     }
-    
-    getByResumeId(cvId){
-        return axios.get(`https://localhost:8080/api/educations/getByCvId?id=${cvId}`)
+
+    getAllByResumeIdOrderByEndYearDesc(resumeId){
+        return axios.get(`http://localhost:8080/api/educations/getAllByResumeIdOrderByEndYearDesc?resumeId=${resumeId}`)
     }
 }
