@@ -59,14 +59,10 @@ export default function ResumeList() {
                             </Segment>
                             <Segment>
                                 <a href={resume.githubLink} target={"_blank"} rel="noopener noreferrer">
-                                    <Button secondary disabled={!resume.githubLink}>
-                                        <Icon name="github" /> Github
-                                    </Button>
+                                    <Button circular secondary icon='github' disabled={!resume.githubLink} />
                                 </a>
                                 <a href={resume.linkedinLink} target={"_blank"} rel="noopener noreferrer">
-                                    <Button color="linkedin" disabled={!resume.linkedinLink}>
-                                        <Icon name="linkedin" /> LinkedIn
-                                    </Button>
+                                    <Button circular color='linkedin' icon='linkedin' disabled={!resume.linkedinLink} />
                                 </a>
                                 <Button animated as={Link} to={`/resumeDetail/${resume.candidate.id}`}>
                                     <Button.Content visible>Detaylar</Button.Content>
