@@ -17,7 +17,7 @@ export default function UpdateGithubLink({ resumeId, updateResumeValues }) {
         },
         validationSchema: updateGithubLinkSchema,
         onSubmit: (values) => {
-            resumeService.updateGithubLink(resumeId, values.github).then((result) => {
+            resumeService.updateGithubLink(resumeId, values.githubLink).then((result) => {
                 toast.success(result.data.message)
                 updateResumeValues();
             }).catch((result) => {

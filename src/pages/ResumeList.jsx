@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Header, Image, Table, Button, Icon, Card, Segment, Grid } from "semantic-ui-react";
+import { Image, Button, Icon, Card, Segment, Grid } from "semantic-ui-react";
 import ResumeService from '../services/resumeService';
 
 export default function ResumeList() {

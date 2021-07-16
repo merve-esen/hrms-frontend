@@ -14,11 +14,11 @@ export default class ResumeService {
   }
 
   updateGithubLink(resumeId, githubLink) {
-    return axios.put(`http://localhost:8080/api/resumes/updateGithubLink?resumeId=${resumeId}&githublink=${githubLink}`)
+    return axios.put(`http://localhost:8080/api/resumes/updateGithubLink?resumeId=${resumeId}&githubLink=${githubLink}`)
   }
 
   updateLinkedinLink(resumeId, linkedinLink) {
-    return axios.put(`http://localhost:8080/api/resumes/updateLinkedinLink?resumeId=${resumeId}&linkedinlink=${linkedinLink}`)
+    return axios.put(`http://localhost:8080/api/resumes/updateLinkedinLink?resumeId=${resumeId}&linkedinLink=${linkedinLink}`)
   }
 
   updateObjective(resumeId, objective) {
