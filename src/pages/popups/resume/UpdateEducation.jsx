@@ -12,51 +12,70 @@ export default function UpdateEducation({ resumeId, updateResumeValues }) {
   let educationService = new EducationService();
   useEffect(() => {
     let educationService = new EducationService();
-    educationService.getAllByResumeIdOrderByEndYearDesc(resumeId).then((result) => {
-      setEducations(result.data.data);
-    });
+    educationService
+      .getAllByResumeIdOrderByEndYearDesc(resumeId)
+      .then((result) => {
+        setEducations(result.data.data);
+      });
   }, [resumeId]);
 
   let educationAddSchema = Yup.object().shape({
-    departmentName: Yup.string().required("Zorunlu alan").min(2, "Minimum 2 karakter uzunluğunda olmalıdır"),
+    schoolName: Yup.string()
+      .required("Zorunlu alan")
+      .min(2, "Minimum 2 karakter uzunluğunda olmalıdır"),
+    departmentName: Yup.string()
+      .required("Zorunlu alan")
+      .min(2, "Minimum 2 karakter uzunluğunda olmalıdır"),
+    startYear: Yup.number().required("Zorunlu alan"),
     endYear: Yup.number(),
-    schoolName: Yup.string().required("Zorunlu alan").min(2, "Minimum 2 karakter uzunluğunda olmalıdır"),
-    startYear: Yup.number().required("Zorunlu alan")
-  })
+  });
 
   const formik = useFormik({
     initialValues: {
-      departmentName: "",
-      endYear: "",
       schoolName: "",
-      startYear: ""
+      departmentName: "",
+      startYear: "",
+      endYear: "",
     },
     validationSchema: educationAddSchema,
     onSubmit: (values) => {
-      values.resumeId = resumeId;
-      educationService.add(values).then((result) => {
-        toast.success(result.data.message)
-        educationService.getAllByResumeIdOrderByEndYearDesc(resumeId).then((result) => {
-          setEducations(result.data.data);
+      educationService
+        .add({
+          resume: { id: resumeId },
+          schoolName: values.schoolName,
+          departmentName: values.departmentName,
+          startYear: values.startYear,
+          endYear: values.endYear
         })
-        updateResumeValues();
-      }).catch((result) => {
-        toast.error(result.response.data.message)
-      })
-    }
-  })
+        .then((result) => {
+          toast.success(result.data.message);
+          educationService
+            .getAllByResumeIdOrderByEndYearDesc(resumeId)
+            .then((result) => {
+              setEducations(result.data.data);
+            });
+          updateResumeValues();
+        })
+        .catch((result) => {
+          toast.error(result.response.data.message);
+        });
+    },
+  });
 
   const handleDeleteEducation = (educationId) => {
-    educationService.delete(educationId).then((result) => {
-      toast.success(result.data.message);
-      educationService.getByResumeId(resumeId).then((result) => {
-        setEducations(result.data.data)
+    educationService
+      .delete(educationId)
+      .then((result) => {
+        toast.success(result.data.message);
+        educationService.getByResumeId(resumeId).then((result) => {
+          setEducations(result.data.data);
+        });
+        updateResumeValues();
       })
-      updateResumeValues();
-    }).catch((result) => {
-      toast.error(result.response.data.message)
-    })
-  }
+      .catch((result) => {
+        toast.error(result.response.data.message);
+      });
+  };
 
   return (
     <div>
@@ -81,8 +100,12 @@ export default function UpdateEducation({ resumeId, updateResumeValues }) {
                 <Table.Cell>{education.startYear}</Table.Cell>
                 <Table.Cell>{education.endYear}</Table.Cell>
                 <Table.Cell>
-                  <Button color="red" icon="x" circular onClick={() => handleDeleteEducation(education.id)}>
-                  </Button>
+                  <Button
+                    color="red"
+                    icon="x"
+                    circular
+                    onClick={() => handleDeleteEducation(education.id)}
+                  ></Button>
                 </Table.Cell>
               </Table.Row>
             ))}
@@ -95,20 +118,24 @@ export default function UpdateEducation({ resumeId, updateResumeValues }) {
           <Form onSubmit={formik.handleSubmit}>
             <Grid stackable>
               <Grid.Column width={8}>
-                <label><b>Okul Adı</b></label>
+                <label>
+                  <b>Okul Adı</b>
+                </label>
                 <Form.Input
                   fluid
                   placeholder="Okul Adı"
                   type="text"
-                  name="name"
+                  name="schoolName"
                   value={formik.values.schoolName}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <label><b>Başlangıç Yılı</b></label>
+                <label>
+                  <b>Başlangıç Yılı</b>
+                </label>
                 <Form.Input
                   fluid
-                  type="date"
+                  type="number"
                   name="startYear"
                   value={formik.values.startYear}
                   onChange={formik.handleChange}
@@ -116,7 +143,9 @@ export default function UpdateEducation({ resumeId, updateResumeValues }) {
                 />
               </Grid.Column>
               <Grid.Column width={8}>
-                <label><b>Bölüm Adı</b></label>
+                <label>
+                  <b>Bölüm Adı</b>
+                </label>
                 <Form.Input
                   fluid
                   placeholder="Bölüm Adı"
@@ -126,10 +155,12 @@ export default function UpdateEducation({ resumeId, updateResumeValues }) {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <label><b>Mezuniyet Yılı</b></label>
+                <label>
+                  <b>Mezuniyet Yılı</b>
+                </label>
                 <Form.Input
                   fluid
-                  type="date"
+                  type="number"
                   name="endYear"
                   value={formik.values.endYear}
                   onChange={formik.handleChange}
@@ -138,11 +169,13 @@ export default function UpdateEducation({ resumeId, updateResumeValues }) {
               </Grid.Column>
             </Grid>
             <div style={{ marginTop: "1em" }}>
-              <Button fluid color="green" type="submit">Ekle</Button>
+              <Button fluid color="green" type="submit">
+                Ekle
+              </Button>
             </div>
           </Form>
         </Card.Content>
       </Card>
     </div>
-  )
+  );
 }

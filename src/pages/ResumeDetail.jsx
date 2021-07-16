@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Image, Table, Header, Button, Icon, Grid } from "semantic-ui-react";
+import { Card, Image, Table, Button, Grid } from "semantic-ui-react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { toast } from "react-toastify";
@@ -139,7 +139,7 @@ export default function ResumeDetail() {
             <Card fluid color={"black"}>
                 <Card.Content>
                     <Card.Header>
-                        Okuduğu Okullar
+                        Eğitim Bilgileri
                         {author && <Popup trigger={<button className="ui yellow circular icon button" style={{ marginLeft: "1em" }}><i className="edit icon"></i></button>} modal>
                             <UpdateEducation resumeId={resume.id} updateResumeValues={updateResumeValues} />
                         </Popup>}
@@ -150,8 +150,8 @@ export default function ResumeDetail() {
                         <Table.Row>
                             <Table.HeaderCell>Okul Adı</Table.HeaderCell>
                             <Table.HeaderCell>Bölüm</Table.HeaderCell>
-                            <Table.HeaderCell>Başlangıç Tarihi</Table.HeaderCell>
-                            <Table.HeaderCell>Mezuniyet Tarihi</Table.HeaderCell>
+                            <Table.HeaderCell>Başlangıç Yılı</Table.HeaderCell>
+                            <Table.HeaderCell>Mezuniyet Yılı</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
@@ -180,8 +180,8 @@ export default function ResumeDetail() {
                         <Table.Row>
                             <Table.HeaderCell>Şirket Adı</Table.HeaderCell>
                             <Table.HeaderCell>Pozisyon</Table.HeaderCell>
-                            <Table.HeaderCell>Başalngıç Tarihi</Table.HeaderCell>
-                            <Table.HeaderCell>Bitiş Tarihi</Table.HeaderCell>
+                            <Table.HeaderCell>Başlangıç Yılı</Table.HeaderCell>
+                            <Table.HeaderCell>Bitiş Yılı</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>

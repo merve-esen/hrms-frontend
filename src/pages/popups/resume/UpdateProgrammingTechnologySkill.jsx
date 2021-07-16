@@ -7,13 +7,16 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import ProgrammingTechnologySkillService from "../../../services/programmingTechnologySkillService";
 
-export default function UpdateProgrammingTechnologySkill({ resumeId, updateResumeValues }) {
+export default function UpdateProgrammingTechnologySkill({
+  resumeId,
+  updateResumeValues,
+}) {
   let [technologies, setTechnologies] = useState([]);
 
   let technologyService = new ProgrammingTechnologySkillService();
   useEffect(() => {
     let technologyService = new ProgrammingTechnologySkillService();
-    technologyService.getByResumeId(resumeId).then((result) => {
+    technologyService.getAllByResumeId(resumeId).then((result) => {
       setTechnologies(result.data.data);
     });
   }, [resumeId]);
@@ -30,33 +33,38 @@ export default function UpdateProgrammingTechnologySkill({ resumeId, updateResum
     },
     validationSchema: technologyAddSchema,
     onSubmit: (values) => {
-      values.resumeId = resumeId;
       technologyService
-        .add(values)
+        .add({
+          resume: { id: resumeId },
+          name: values.name,
+        })
         .then((result) => {
-          toast.success(result.data.message)
-          technologyService.getByResumeId(resumeId).then((result) => {
-            setTechnologies(result.data.data)
-          })
+          toast.success(result.data.message);
+          technologyService.getAllByResumeId(resumeId).then((result) => {
+            setTechnologies(result.data.data);
+          });
           updateResumeValues();
         })
         .catch((result) => {
-          toast.error(result.response.data.message)
+          toast.error(result.response.data.message);
         });
     },
   });
 
   const handleDeleteTechnology = (technologyId) => {
-    technologyService.delete(technologyId).then((result) => {
-      toast.success(result.data.message)
-      technologyService.getByResumeId(resumeId).then((result) => {
-        setTechnologies(result.data.data)
+    technologyService
+      .delete(technologyId)
+      .then((result) => {
+        toast.success(result.data.message);
+        technologyService.getAllByResumeId(resumeId).then((result) => {
+          setTechnologies(result.data.data);
+        });
+        updateResumeValues();
       })
-      updateResumeValues();
-    }).catch((result) => {
-      toast.error(result.response.data.message)
-    })
-  }
+      .catch((result) => {
+        toast.error(result.response.data.message);
+      });
+  };
 
   return (
     <div>
@@ -71,7 +79,7 @@ export default function UpdateProgrammingTechnologySkill({ resumeId, updateResum
                 </label>
                 <Form.Input
                   fluid
-                  placeholder="Teknoloji Adı Adı"
+                  placeholder="Teknoloji Adı"
                   type="text"
                   name="name"
                   value={formik.values.name}
@@ -83,7 +91,9 @@ export default function UpdateProgrammingTechnologySkill({ resumeId, updateResum
                     {formik.errors.name}
                   </div>
                 )}
-                <Button fluid color="green" type="submit">Ekle</Button>
+                <Button fluid color="green" type="submit">
+                  Ekle
+                </Button>
               </Form>
             </Card.Content>
           </Card>
@@ -101,8 +111,12 @@ export default function UpdateProgrammingTechnologySkill({ resumeId, updateResum
                 <Table.Row key={technology.id}>
                   <Table.Cell>{technology.name}</Table.Cell>
                   <Table.Cell>
-                    <Button color="red" icon="x" circular onClick={() => handleDeleteTechnology(technology.id)}>
-                    </Button>
+                    <Button
+                      color="red"
+                      icon="x"
+                      circular
+                      onClick={() => handleDeleteTechnology(technology.id)}
+                    ></Button>
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -111,5 +125,5 @@ export default function UpdateProgrammingTechnologySkill({ resumeId, updateResum
         </Grid.Column>
       </Grid>
     </div>
-  )
+  );
 }

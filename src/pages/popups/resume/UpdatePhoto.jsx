@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { toast } from "react-toastify";
 import { Card, Button } from "semantic-ui-react";
-import PhotoService from '../../../services/photoService';
+import PhotoService from "../../../services/photoService";
 
 export default class UpdatePhoto extends Component {
   state = {
@@ -45,11 +45,22 @@ export default class UpdatePhoto extends Component {
               onChange={this.fileSelectedHandler}
               ref={(fileInput) => (this.fileInput = fileInput)}
             />
-            <button className="ui button" onClick={() => this.fileInput.click()}>Dosya Seç</button>
-            <Button color={"green"} onClick={this.fileUploadHandler} disabled={this.state.selectedFile == null}>Yükle</Button>
+            <button
+              className="ui button"
+              onClick={() => this.fileInput.click()}
+            >
+              Dosya Seç
+            </button>
+            <Button
+              color={"green"}
+              onClick={this.fileUploadHandler}
+              disabled={this.state.selectedFile == null}
+            >
+              Yükle
+            </Button>
           </Card.Content>
         </Card>
       </div>
-    )
+    );
   }
 }

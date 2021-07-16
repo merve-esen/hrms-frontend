@@ -4,7 +4,7 @@ import { Card, Table, Button, Form, Grid, Dropdown } from "semantic-ui-react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import LanguageSkillService from "../../../services/languageSkillService"
+import LanguageSkillService from "../../../services/languageSkillService";
 
 export default function UpdateLanguageSkill({ resumeId, updateResumeValues }) {
   let [languageSkills, setLanguageSkills] = useState([]);
@@ -13,7 +13,7 @@ export default function UpdateLanguageSkill({ resumeId, updateResumeValues }) {
 
   useEffect(() => {
     let languageSkillService = new LanguageSkillService();
-    languageSkillService.getByResumeId(resumeId).then((result) => {
+    languageSkillService.getAllByResumeId(resumeId).then((result) => {
       setLanguageSkills(result.data.data);
     });
   }, [resumeId]);
@@ -37,42 +37,49 @@ export default function UpdateLanguageSkill({ resumeId, updateResumeValues }) {
     onSubmit: (values) => {
       values.resumeId = resumeId;
       languageSkillService
-        .add(values)
+        .add({
+          resume: { id: resumeId },
+          language: values.language,
+          level: values.level,
+        })
         .then((result) => {
           toast.success(result.data.message);
-          languageSkillService.getByResumeId(resumeId).then((result) => {
-            setLanguageSkills(result.data.data)
-          })
+          languageSkillService.getAllByResumeId(resumeId).then((result) => {
+            setLanguageSkills(result.data.data);
+          });
           updateResumeValues();
         })
         .catch((result) => {
-          toast.error(result.response.data.message)
+          toast.error(result.response.data.message);
         });
     },
   });
 
-  const levels = [1, 2, 3, 4, 5]
+  const levels = [1, 2, 3, 4, 5];
   const levelOption = levels.map((level) => ({
     key: level,
     text: level,
-    value: level
-  }))
+    value: level,
+  }));
 
   const handleChangeSemantic = (value, fieldName) => {
     formik.setFieldValue(fieldName, value);
-  }
+  };
 
   const handleDeleteLanguageSkill = (languageSkillId) => {
-    languageSkillService.delete(languageSkillId).then((result) => {
-      toast.success(result.data.message)
-      languageSkillService.getByResumeId(resumeId).then((result) => {
-        setLanguageSkills(result.data.data)
+    languageSkillService
+      .delete(languageSkillId)
+      .then((result) => {
+        toast.success(result.data.message);
+        languageSkillService.getAllByResumeId(resumeId).then((result) => {
+          setLanguageSkills(result.data.data);
+        });
+        updateResumeValues();
       })
-      updateResumeValues();
-    }).catch((result) => {
-      toast.error(result.response.data.message)
-    })
-  }
+      .catch((result) => {
+        toast.error(result.response.data.message);
+      });
+  };
 
   return (
     <div>
@@ -92,8 +99,12 @@ export default function UpdateLanguageSkill({ resumeId, updateResumeValues }) {
                 <Table.Cell>{languageSkill.language}</Table.Cell>
                 <Table.Cell>{languageSkill.level}</Table.Cell>
                 <Table.Cell>
-                  <Button color="red" icon="x" circular onClick={() => handleDeleteLanguageSkill(languageSkill.id)}>
-                  </Button>
+                  <Button
+                    color="red"
+                    icon="x"
+                    circular
+                    onClick={() => handleDeleteLanguageSkill(languageSkill.id)}
+                  ></Button>
                 </Table.Cell>
               </Table.Row>
             ))}
@@ -137,7 +148,7 @@ export default function UpdateLanguageSkill({ resumeId, updateResumeValues }) {
                   fluid
                   options={levelOption}
                   onChange={(event, data) => {
-                    handleChangeSemantic(data.value, "level")
+                    handleChangeSemantic(data.value, "level");
                   }}
                   value={formik.values.level}
                   onBlur={formik.handleBlur}
@@ -159,5 +170,5 @@ export default function UpdateLanguageSkill({ resumeId, updateResumeValues }) {
         </Card.Content>
       </Card>
     </div>
-  )
+  );
 }
