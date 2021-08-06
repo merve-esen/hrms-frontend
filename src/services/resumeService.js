@@ -32,4 +32,8 @@ export default class ResumeService {
   deleteLinkedinLink(resumeId) {
     return axios.delete(`http://localhost:8080/api/resumes/deleteLinkedinLink?resumeId=${resumeId}`)
   }
+
+  updatePhoto(resumeId, file) {
+    return axios.post(`http://localhost:8080/api/resumes/updatePhoto?resumeId=${resumeId}`, file)
+  }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { toast } from "react-toastify";
 import { Card, Button } from "semantic-ui-react";
-import PhotoService from "../../../services/photoService";
+import ResumeService from "../../../services/resumeService";
 
 export default class UpdatePhoto extends Component {
   state = {
@@ -21,9 +21,9 @@ export default class UpdatePhoto extends Component {
       this.state.selectedFile,
       this.state.selectedFile.name
     );
-    let photoService = new PhotoService();
-    photoService
-      .upload(this.props.resumeId, fd)
+    let resumeService = new ResumeService();
+    resumeService
+      .updatePhoto(this.props.resumeId, fd)
       .then((res) => {
         toast.success(res.data.message);
         this.props.updateResumeValues();
