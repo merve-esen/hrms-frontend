@@ -96,6 +96,10 @@ export default function JobAdvertisementDetail() {
                         <Table.Cell>Son Başvuru Tarihi</Table.Cell>
                         <Table.Cell>{jobAdvertisement.applicationDeadline}</Table.Cell>
                     </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>Açıklama</Table.Cell>
+                        <Table.Cell>{jobAdvertisement.jobDescription}</Table.Cell>
+                    </Table.Row>
                 </Table.Body>
                 <Table.Footer fullWidth>
                     <Table.Row>
