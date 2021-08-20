@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Icon, Table, Button} from "semantic-ui-react";
+import { Icon, Table, Button, Header } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import JobAdvertisementService from "../services/jobAdvertisementService";
 import FavoriteJobAdvertisementService from '../services/favoriteJobAdvertisementService';
@@ -57,47 +57,110 @@ export default function JobAdvertisementDetail() {
                 </Table.Header>
                 <Table.Body>
                     <Table.Row>
-                        <Table.Cell>Firma Adı</Table.Cell>
+                        <Table.Cell>
+                            <Header as="h4" image>
+                                <Header.Content>
+                                    <Icon name="building" />
+                                    Firma Adı
+                                </Header.Content>
+                            </Header>
+                        </Table.Cell>
                         <Table.Cell>{jobAdvertisement.employer?.companyName}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>İş Pozisyonu</Table.Cell>
+                        <Table.Cell>
+                            <Header as="h4" image>
+                                <Header.Content>
+                                    <Icon name="address card" />
+                                    İş Pozisyonu
+                                </Header.Content>
+                            </Header>
+                        </Table.Cell>
                         <Table.Cell>{jobAdvertisement.jobPosition?.name}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Şehir</Table.Cell>
+                        <Table.Cell>
+                            <Header as="h4" image>
+                                <Header.Content>
+                                    <Icon name="map marker alternate" />
+                                    Şehir
+                                </Header.Content>
+                            </Header>
+                        </Table.Cell>
                         <Table.Cell>{jobAdvertisement.city?.name}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Çalışma Şekli</Table.Cell>
+                        <Table.Cell><Header as="h4" image>
+                            <Header.Content>
+                                <Icon name="briefcase" />
+                                Çalışma Şekli
+                            </Header.Content>
+                        </Header></Table.Cell>
                         <Table.Cell>{jobAdvertisement.workplace?.name}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Çalışma Zamanı</Table.Cell>
+                        <Table.Cell><Header as="h4" image>
+                            <Header.Content>
+                                <Icon name="clock" />
+                                Çalışma Zamanı
+                            </Header.Content>
+                        </Header></Table.Cell>
                         <Table.Cell>{jobAdvertisement.workTime?.name}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Açık Pozisyon Adedi</Table.Cell>
+                        <Table.Cell><Header as="h4" image>
+                            <Header.Content>
+                                <Icon name="address book" />
+                                Açık Pozisyon Adedi
+                            </Header.Content>
+                        </Header></Table.Cell>
                         <Table.Cell>{jobAdvertisement.numberOfOpenPositions}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Minimum Ücret</Table.Cell>
+                        <Table.Cell><Header as="h4" image>
+                            <Header.Content>
+                                <Icon name="lira sign" />
+                                Minimum Ücret
+                            </Header.Content>
+                        </Header></Table.Cell>
                         <Table.Cell>{jobAdvertisement.minimumSalary}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Maksimum Ücret</Table.Cell>
+                        <Table.Cell><Header as="h4" image>
+                            <Header.Content>
+                                <Icon name="lira sign" />
+                                Maksimum Ücret
+                            </Header.Content>
+                        </Header></Table.Cell>
                         <Table.Cell>{jobAdvertisement.maximumSalary}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Yayınlanma Tarihi</Table.Cell>
+                        <Table.Cell><Header as="h4" image>
+                            <Header.Content>
+                                <Icon name="calendar alternate outline" />
+                                Yayınlanma Tarihi
+                            </Header.Content>
+                        </Header></Table.Cell>
                         <Table.Cell>{jobAdvertisement.createDate}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Son Başvuru Tarihi</Table.Cell>
+                        <Table.Cell><Header as="h4" image>
+                            <Header.Content>
+                                <Icon name="calendar alternate outline" />
+                                Son Başvuru Tarihi
+                            </Header.Content>
+                        </Header></Table.Cell>
                         <Table.Cell>{jobAdvertisement.applicationDeadline}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell>Açıklama</Table.Cell>
+                        <Table.Cell>
+                            <Header as="h4" image>
+                                <Header.Content>
+                                    <Icon name="clipboard outline" />
+                                    Açıklama
+                                </Header.Content>
+                            </Header>
+                        </Table.Cell>
                         <Table.Cell>{jobAdvertisement.jobDescription}</Table.Cell>
                     </Table.Row>
                 </Table.Body>

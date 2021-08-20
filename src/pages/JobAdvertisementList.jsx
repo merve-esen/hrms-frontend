@@ -125,12 +125,12 @@ export default function JobAdvertisementList() {
                     />
                   </Table.Cell>
                   <Table.Cell>
-                <Button color="teal" as={Link} to={`/jobAdvertisementDetail/${jobAdvertisement.id}`}
-                    content="Detay"
-                    icon="arrow right"
-                    labelPosition="right"
-                  />
-              </Table.Cell>
+                    <Button color="teal" as={Link} to={`/jobAdvertisementDetail/${jobAdvertisement.id}`}
+                      content="Detay"
+                      icon="arrow right"
+                      labelPosition="right"
+                    />
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
