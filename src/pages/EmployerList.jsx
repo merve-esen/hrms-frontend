@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Header, Icon, Button } from 'semantic-ui-react'
-import { toast } from "react-toastify";
+import { Link } from 'react-router-dom';
 import EmployerService from '../services/employerService';
 
 export default function EmployerList() {
@@ -12,11 +12,6 @@ export default function EmployerList() {
             .getAll()
             .then((result) => setEmployers(result.data.data));
     }, []);
-
-    const handleConfirmEmployer = (employer) => {
-        //dispatch(applyJobAdvertisement(jobAdvertisement));
-        toast.success(`${employer.companyName} şirketi onaylandı!`)
-    };
 
     return (
         <div>
@@ -30,7 +25,7 @@ export default function EmployerList() {
                         <Table.HeaderCell>Şirket Adı</Table.HeaderCell>
                         <Table.HeaderCell>Web Sitesi</Table.HeaderCell>
                         <Table.HeaderCell>Telefon</Table.HeaderCell>
-                        <Table.HeaderCell>Onay Durumu</Table.HeaderCell>
+                        <Table.HeaderCell>Detaylar</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -40,7 +35,11 @@ export default function EmployerList() {
                             <Table.Cell>{employer.webSite}</Table.Cell>
                             <Table.Cell>{employer.phoneNumber}</Table.Cell>
                             <Table.Cell>
-                                <Button color='white' inverted onClick={() => handleConfirmEmployer(employer)}>Onayla</Button>
+                                <Button color="yellow" as={Link} to={`/employerDetail/${employer.id}`}
+                                    content="Detay"
+                                    icon="arrow right"
+                                    labelPosition="right"
+                                />
                             </Table.Cell>
                         </Table.Row>
                     ))}

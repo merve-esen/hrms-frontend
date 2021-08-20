@@ -2,6 +2,7 @@ import React from "react";
 import Home from "../pages/Home/Home";
 import CandidateList from "../pages/CandidateList";
 import EmployerList from "../pages/EmployerList";
+import EmployerDetail from "../pages/EmployerDetail";
 import JobAdvertisementList from "../pages/JobAdvertisementList";
 import JobPositionList from "../pages/JobPositionList";
 import { Route } from "react-router";
@@ -26,6 +27,7 @@ export default function Dashboard() {
       <Route exact path="/admin/jobAdvertisements" component={AdminJobAdvertisementList} /> 
 
       <Route exact path="/employer/" component={EmployerDashboard} />
+      <Route exact path="/employerDetail/:id" component={EmployerDetail} />
       <Route exact path="/employer/jobAdvertisements" component={EmployerJobAdvertisementList} /> 
 
       <Route exact path="/candidate/" component={CandidateDashboard} />
