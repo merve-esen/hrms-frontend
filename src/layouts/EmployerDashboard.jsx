@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, Grid, Table, Header, Icon, Button } from 'semantic-ui-react'
 import { toast } from "react-toastify";
 import JobAdvertisementService from '../services/jobAdvertisementService';
-import CandidateService from '../services/candidateServices';
+import CandidateService from '../services/candidateService';
 
 export default function EmployerDashboard() {
     //const dispatch = useDispatch();

@@ -4,12 +4,17 @@ import { Card, Grid, Table, Header, Icon, Button } from 'semantic-ui-react'
 import { toast } from "react-toastify";
 import JobAdvertisementService from '../services/jobAdvertisementService';
 import EmployerService from '../services/employerService';
+import CandidateService from '../services/candidateService';
 
 export default function AdminDashboard() {
     //const dispatch = useDispatch();
 
     const [jobAdvertisements, setJobAdvertisements] = useState([]);
     const [employers, setEmployers] = useState([]);
+    const [candidates, setCandidates] = useState([]);
+    let [showCandidates, setShowCandidates] = useState(false);
+    let [showEmployers, setShowEmployers] = useState(false);
+    let [showJobAdvertisements, setShowJobAdvertisements] = useState(false);
 
     useEffect(() => {
         let jobAdvertisementService = new JobAdvertisementService();
@@ -21,6 +26,11 @@ export default function AdminDashboard() {
         employerService
             .getAll()
             .then((result) => setEmployers(result.data.data));
+
+        let candidateService = new CandidateService();
+        candidateService
+            .getAll()
+            .then((result) => setCandidates(result.data.data));
     }, []);
 
     //const { jobAdvertisementItems } = useSelector(state => state.jobAdvertisement)
@@ -34,44 +44,59 @@ export default function AdminDashboard() {
         //dispatch(applyJobAdvertisement(jobAdvertisement));
         toast.success(`${employer.companyName} şirketi onaylandı!`)
     };
+    const handleShowCandidates = () => {
+        setShowCandidates(true);
+        setShowEmployers(false);
+        setShowJobAdvertisements(false);
+    };
+    const handleShowEmployers = () => {
+        setShowCandidates(false);
+        setShowEmployers(true);
+        setShowJobAdvertisements(false);
+    };
+    const handleShowJobAdvertisements = () => {
+        setShowCandidates(false);
+        setShowEmployers(false);
+        setShowJobAdvertisements(true);
+    };
 
     return (
         <div>
             <Grid columns='equal'>
                 <Grid.Row>
                     <Grid.Column>
-                        <Card color='teal'>
+                        <Card color='teal' onClick={() => handleShowCandidates()}>
                             <Card.Content>
                                 <Card.Header>Aday Sayısı</Card.Header>
                                 <Card.Description>
-                                    <h1 class="ui header teal">23</h1>
+                                    <h1 className="ui header teal">{candidates.length}</h1>
                                 </Card.Description>
                             </Card.Content>
                         </Card>
                     </Grid.Column>
                     <Grid.Column>
-                        <Card color='yellow'>
+                        <Card color='yellow' onClick={() => handleShowEmployers()}>
                             <Card.Content>
                                 <Card.Header>İşveren Sayısı</Card.Header>
                                 <Card.Description>
-                                    <h1 class="ui header yellow">8</h1>
+                                    <h1 className="ui header yellow">{employers.length}</h1>
                                 </Card.Description>
                             </Card.Content>
                         </Card>
                     </Grid.Column>
                     <Grid.Column>
-                        <Card color='green'>
+                        <Card color='green' onClick={() => handleShowJobAdvertisements()}>
                             <Card.Content>
                                 <Card.Header>İlan Sayısı</Card.Header>
                                 <Card.Description>
-                                    <h1 class="ui header green">34</h1>
+                                    <h1 className="ui header green">{jobAdvertisements.length}</h1>
                                 </Card.Description>
                             </Card.Content>
                         </Card>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-                    <Grid.Column>
+                    {showCandidates && <Grid.Column>
                         <Header as='h2' color='olive'>
                             <Icon name='address card outline' />
                             <Header.Content>Onay Bekleyen İşverenler</Header.Content>
@@ -92,14 +117,14 @@ export default function AdminDashboard() {
                                         <Table.Cell>{employer.webSite}</Table.Cell>
                                         <Table.Cell>{employer.phoneNumber}</Table.Cell>
                                         <Table.Cell>
-                                            <Button color='white' inverted onClick={() => handleConfirmEmployer(employer)}>Onayla</Button>
+                                            <Button color='olive' inverted onClick={() => handleConfirmEmployer(employer)}>Onayla</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))}
                             </Table.Body>
                         </Table>
-                    </Grid.Column>
-                    <Grid.Column>
+                    </Grid.Column>} 
+                    {showEmployers && <Grid.Column>
                         <Header as='h2' color='teal'>
                             <Icon name='file alternate outline' />
                             <Header.Content>Onay Bekleyen İlanlar</Header.Content>
@@ -126,13 +151,13 @@ export default function AdminDashboard() {
                                         <Table.Cell>{jobAdvertisement.numberOfOpenPositions}</Table.Cell>
                                         <Table.Cell>{jobAdvertisement.applicationDeadline}</Table.Cell>
                                         <Table.Cell>
-                                            <Button color='white' inverted onClick={() => handleConfirmJobAdvertisement(jobAdvertisement)}>Onayla</Button>
+                                            <Button color='teal' inverted onClick={() => handleConfirmJobAdvertisement(jobAdvertisement)}>Onayla</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))}
                             </Table.Body>
                         </Table>
-                    </Grid.Column>
+                    </Grid.Column>}
                 </Grid.Row>
             </Grid>
         </div>
