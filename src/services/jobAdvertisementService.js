@@ -4,13 +4,21 @@ export default class JobAdvertisementService {
   getById(id) {
     return axios.get(`http://localhost:8080/api/jobAdvertisements/getbyid?id=${id}`);
   }
-  
+
   getAll() {
     return axios.get("http://localhost:8080/api/jobAdvertisements/getall");
   }
 
   getByIsActiveTrue() {
     return axios.get("http://localhost:8080/api/jobAdvertisements/getbyisactivetrue");
+  }
+
+  getByConfirmedIsTrue() {
+    return axios.get("http://localhost:8080/api/jobAdvertisements/getbyconfirmedistrue");
+  }
+
+  getByConfirmedIsNull() {
+    return axios.get("http://localhost:8080/api/jobAdvertisements/getbyconfirmedisnull");
   }
 
   getByEmployerId(employerId) {
