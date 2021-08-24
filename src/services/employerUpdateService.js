@@ -10,6 +10,10 @@ export default class EmployerUpdateService {
     return axios.get(`http://localhost:8080/api/employerUpdates/getbyid?id=${id}`);
   }
 
+  getByDeletedFalse() {
+    return axios.get("http://localhost:8080/api/employerUpdates/getbydeletedfalse");
+  }
+
   getByEmployerIdAndDeletedFalse(employerId) {
     return axios.get(`http://localhost:8080/api/employerUpdates/getbyemployeridanddeletedfalse?employerId=${employerId}`);
   }
@@ -22,11 +26,11 @@ export default class EmployerUpdateService {
     return axios.post("http://localhost:8080/api/employerUpdates/update", employerUpdates);
   }
 
-  confirm(employeeId, employerUpdateId) {
-    return axios.get(`http://localhost:8080/api/employerUpdates/confirm?employeeId=${employeeId}&employerUpdateId=${employerUpdateId}`);
+  confirm(employerUpdateId, employeeId) {
+    return axios.get(`http://localhost:8080/api/employerUpdates/confirm?employerUpdateId=${employerUpdateId}&employeeId=${employeeId}`);
   }
 
-  reject(employeeId, employerUpdateId) {
-    return axios.get(`http://localhost:8080/api/employerUpdates/reject?employeeId=${employeeId}&employerUpdateId=${employerUpdateId}`);
+  reject(employerUpdateId, employeeId) {
+    return axios.get(`http://localhost:8080/api/employerUpdates/reject?employerUpdateId=${employerUpdateId}&employeeId=${employeeId}`);
   }
 }
