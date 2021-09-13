@@ -18,6 +18,6 @@ export default function jobAdvertisementReducer(state=initialState, {type, paylo
             jobAdvertisementItems: state.jobAdvertisementItems.filter((j) => j.id !== payload.id),
           };
         default:
-            return state;;
+            return state;
     }
 }

@@ -346,7 +346,7 @@ export default function AdminDashboard() {
                                         <Table.Cell>{jobAdvertisement.numberOfOpenPositions}</Table.Cell>
                                         <Table.Cell>{jobAdvertisement.applicationDeadline}</Table.Cell>
                                         <Table.Cell>
-                                            <Button color="blue" as={Link} to={`/jobAdvertisementDetail/${jobAdvertisement.id}`}
+                                            <Button color="yellow" as={Link} to={`/jobAdvertisementDetail/${jobAdvertisement.id}`}
                                                 content="Detay"
                                                 icon="arrow right"
                                                 labelPosition="right"
