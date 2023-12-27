@@ -137,7 +137,7 @@ export default function UpdateLanguageSkill({ resumeId, updateResumeValues }) {
               </Grid.Column>
               <Grid.Column width={8}>
                 <label>
-                  <b>Seviye</b>
+                  <b>Seviye (min:1 - max:5)</b>
                 </label>
                 <Dropdown
                   clearable
