@@ -208,7 +208,7 @@ export default function ResumeDetail() {
                 <Table celled color={"black"}>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell>Dil Adı</Table.HeaderCell>
+                            <Table.HeaderCell>Yabancı Dil</Table.HeaderCell>
                             <Table.HeaderCell>Seviye min:1 max:5</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
